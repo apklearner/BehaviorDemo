@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<RelativeLayout
+    android:id="@+id/qq1_header"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/qq1_head_height"
+    android:background="@color/colorPrimary"
+    app:layout_behavior="behavior.behaviordemo.behaviors.qq1.HeadBehavior"
+
+    >
+    <ImageView
+        android:id="@+id/qq1_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/qq1_head_bottom_height"
+        android:src="@drawable/pic_test"
+        android:scaleType="centerCrop"
+        />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/qq1_head_icon_height"
+        android:layout_height="@dimen/qq1_head_icon_height"
+        app:civ_border_width="1dp"
+        app:civ_border_color="#ffffff"
+        android:src="@drawable/pic_test"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/qq1_bg"
+        android:layout_marginBottom="-50dp"
+
+        />
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_alignParentBottom="true"
+    android:textColor="#ffffff"
+    android:text="内容"
+    android:padding="10dp"
+    />
+</RelativeLayout>
+
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/nest"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="behavior.behaviordemo.behaviors.qq1.ContentBehavior"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="@color/colorAccent"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#faafa1"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#33afa1"/>
+        />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#6a90fa"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#88a94a"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#ffffff"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#ff0000"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#ffff00"/>
+        />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#ff00ff"/>
+        />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#ffaa00"/>
+        />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clip_video_play"
+            android:tint="#00aa00"/>
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uc_title_height">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+</android.support.design.widget.CoordinatorLayout>

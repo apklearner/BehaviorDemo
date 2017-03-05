@@ -26,4 +26,21 @@ public class HeightUtils {
         return Application.getContext().getResources().getDimensionPixelSize(R.dimen.uc_tab_heght);
 
     }
+
+    public static int getQQ1HeadHeight(){
+        return Application.getContext().getResources().getDimensionPixelSize(R.dimen.qq1_head_height);
+    }
+    public static int getQQ1HeadMaxHeight(){
+        return Application.getContext().getResources().getDimensionPixelSize(R.dimen.qq1_head_max_height);
+    }
+
+    public static int getQQ1IconHeight(){
+        return Application.getContext().getResources().getDimensionPixelSize(R.dimen.qq1_head_icon_height);
+    }
+
+    public static int getQQ1BottomHeight(){
+        return Application.getContext().getResources().getDimensionPixelSize(R.dimen.qq1_head_bottom_height);
+
+    }
+
 }

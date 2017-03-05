@@ -3,6 +3,7 @@ package behavior.behaviordemo;
 import android.view.View;
 import android.widget.Button;
 
+import behavior.behaviordemo.activities.QQHeadActivity;
 import behavior.behaviordemo.activities.RotateActivity;
 import behavior.behaviordemo.activities.TestActivity;
 import behavior.behaviordemo.activities.UCActivity;
@@ -18,6 +19,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     Button btn2;
     @BindView(R.id.btn_uc)
     Button btn3;
+    @BindView(R.id.btn_qq_1)
+    Button btn4;
 
 
     @Override
@@ -30,6 +33,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         btn1.setOnClickListener(this);
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
     }
 
     @Override
@@ -43,6 +47,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_uc:
                 IntentHelper.openAct(this, UCActivity.class);
+                break;
+            case R.id.btn_qq_1:
+                IntentHelper.openAct(this, QQHeadActivity.class);
                 break;
         }
     }
