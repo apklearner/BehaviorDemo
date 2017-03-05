@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<FrameLayout
+    android:fitsSystemWindows="true"
+    android:id="@+id/uc_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="behavior.behaviordemo.behaviors.ucbehavior.HeadBehavior"
+
+    >
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uc_head_height"
+        android:src="@drawable/pic_test"
+        android:scaleType="centerCrop"
+        />
+</FrameLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uc_tab_heght"
+        android:text="Tab"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_behavior="behavior.behaviordemo.behaviors.ucbehavior.TabBehavior"
+        />
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="behavior.behaviordemo.behaviors.ucbehavior.ContentBehavior"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="@color/colorAccent"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#faafa1"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#33afa1"/>
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#6a90fa"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#88a94a"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#ffffff"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#ff0000"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#ffff00"/>
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#ff00ff"/>
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#ffaa00"/>
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_clip_video_play"
+                android:tint="#00aa00"/>
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uc_title_height"
+        android:text="Title"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="17sp"
+        android:background="@color/colorAccent"
+        app:layout_behavior="behavior.behaviordemo.behaviors.ucbehavior.TitleBehavior"
+        />
+</android.support.design.widget.CoordinatorLayout>
