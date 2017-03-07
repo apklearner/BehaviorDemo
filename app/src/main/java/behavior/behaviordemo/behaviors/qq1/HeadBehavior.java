@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 
@@ -16,6 +17,8 @@ import behavior.behaviordemo.widget.reveal.callback.OnScrollChangeListener;
 
 /**
  * Created by ly on 2017/3/5.
+ *
+ *  这个是用 offsetTopAndBottom 方法处理的 有的手机可能会有问题
  */
 
 public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
@@ -31,6 +34,8 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
 
     private WeakReference<View> child;
 
+    private WeakReference<View> mLastNestedScrollingChildRef;
+
     private Handler handler = new Handler();
 
     public HeadBehavior() {
@@ -40,74 +45,149 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
         super(context, attrs);
         mScroller = new Scroller(Application.getContext());
     }
+//
+
+
+
+
 
     @Override
-    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
-//        return super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
+    public boolean onInterceptTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
+        Log.i("123" ,"onInterceptTouchEvent    ");
         if(this.child == null)
             this.child = new WeakReference<View>(child);
 
-        this.child.get().removeCallbacks(resizeRunnable);
-        this.child.get().removeCallbacks(taskRunnable);
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                int x = (int) ev.getX();
+                int y = (int) ev.getY();
+                if(parent.isPointInChildBounds(child,x,y)){
+                    onStartNestedScroll(parent,child,child,child,0);
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+    private int mlastY;
+    @Override
+    public boolean onTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
+        Log.i("123" ,"onTouchEvent    ");
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.i("123" ,"onTouchEvent   DOWN  ");
+                mlastY = (int) ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.i("123" ,"onTouchEvent   MOVE ");
+                int dy = (int) (mlastY - ev.getY());
+                onNestedPreScroll(parent,child,child,0,dy,new int[]{0,0});
+                mlastY = (int) ev.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i("123" ,"onTouchEvent   MOVE ");
+                onStopNestedScroll(parent,child,child);
+                break;
+        }
+
+        return true;
+    }
+
+    /** **************    add      end ************************  */
+
+
+
+    @Override
+    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
+        if(this.child == null)
+            this.child = new WeakReference<View>(child);
+
         handler.removeCallbacks(resizeRunnable);
         handler.removeCallbacks(taskRunnable);
+
+        mLastNestedScrollingChildRef = null;
+
         return ((nestedScrollAxes& CoordinatorLayout.SCROLL_AXIS_VERTICAL)!=0)&&contentScrollComplete;
     }
 
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
-        Log.i("123","head transY  start--->>>" +child.getTranslationY());
+        Log.i("123","nestpre top  bottom start --->>>    " +child.getTop() + "   "+child.getBottom()+ "      " +dy  );
        if(!contentScrollComplete) return;
-
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-//        Log.i("123","tansY --->>" + child.getTranslationY() +"     " +params.height);
-        if(child.getTranslationY() - dy <= -HeightUtils.getQQ1HeadHeight() +HeightUtils.getTItleHeight()){
-            child.setTranslationY(-HeightUtils.getQQ1HeadHeight() +HeightUtils.getTItleHeight());
-            return;
-        }
+        /**
+         *  TransY 的head滑动不响应 改成 offsetTopandBottom 方法
+         */
 
-        if(child.getTranslationY() - dy <= 0){
 
-//            if(child.getTranslationY() - dy < - HeightUtils.getQQ1HeadHeight() + HeightUtils.getTItleHeight())
-//                return;
+        /**
+         * 上滑
+         */
+        if(dy >0){
 
-            if(params.height  > HeightUtils.getQQ1HeadHeight()){
-                params.height -= dy;
-                child.setLayoutParams(params);
+//            Log.i("123","dy > 0  " +child.getBottom() +"   "+ getSpaceHeight());
+            if(child.getBottom() -dy >= getSpaceHeight()) {
+
+                if (child.getTop() == 0) {
+                    if (params.height != HeightUtils.getQQ1HeadHeight()) {
+                        if (params.height - dy > HeightUtils.getQQ1HeadHeight()) {
+                            params.height -= dy;
+                        } else {
+                            params.height = HeightUtils.getQQ1HeadHeight();
+                        }
+                        child.setLayoutParams(params);
+                        child.setBottom(params.height);
+                    } else {
+                        child.offsetTopAndBottom(-dy);
+                    }
+                } else {
+                    child.offsetTopAndBottom(-dy);
+                }
             }else {
-                if(params.height <HeightUtils.getQQ1HeadHeight()){
-                    params.height = HeightUtils.getQQ1HeadHeight();
-                    child.setLayoutParams(params);
+
+                if(child.getBottom() != getSpaceHeight()){
+                    child.setBottom(getSpaceHeight());
+                    child.setTop(getSpaceHeight() - getTotalHeight() );
                 }
 
-                child.setTranslationY(child.getTranslationY()  -dy);
             }
 
 
-        }else {
+        }else if(dy <0){
 
-            if(child.getTranslationY() > 0 ){
-                child.setTranslationY(0);
-            }
-            if(params.height - dy < HeightUtils.getQQ1HeadMaxHeight()){
-                params.height -= dy;
 
+            if(child.getTop() - dy <= 0 ){
+                child.offsetTopAndBottom(-dy);
             }else {
-                params.height  = HeightUtils.getQQ1HeadMaxHeight();
+                if(child.getTop() <0|| child.getTop() >0 ){
+                    child.offsetTopAndBottom( - child.getTop());
+                }else {
+
+
+                    if(child.getTop() == 0){
+                        if (params.height - dy <= HeightUtils.getQQ1HeadMaxHeight()) {
+                            params.height -= dy;
+                            child.setLayoutParams(params);
+                            child.setBottom(params.height);
+                        }
+                    }
+
+                }
             }
-            child.setLayoutParams(params);
-
-
         }
-        if(l!=null) l.onScroll(child.getTranslationY());
 
+        if(l!=null) l.onScroll(child.getTop());
         consumed[1] = dy;
-        Log.i("123","head transY  end--->>>" +child.getTranslationY());
+
     }
+
+
 
     @Override
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target) {
+
         super.onStopNestedScroll(coordinatorLayout, child, target);
         resizeRunnable = null;
         taskRunnable = null;
@@ -116,7 +196,9 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
         if(params.height > HeightUtils.getQQ1HeadHeight()){
             resizeRunnable = new ResizeRunnable();
             resizeRunnable.closeResize();
-        }else if(Math.abs(child.getTranslationY()) > (HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight())/2){
+        }
+
+        else if(Math.abs(child.getTop()) > (getTotalHeight() - getSpaceHeight())/2){
            taskRunnable = new TaskRunnable();
             taskRunnable.close();
         }else {
@@ -124,6 +206,20 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
             taskRunnable.open();
         }
 
+
+        if(child.getBottom() <= getSpaceHeight() ) contentScrollComplete = false;
+
+        mLastNestedScrollingChildRef = new WeakReference<>(target);
+
+    }
+
+
+    private int getSpaceHeight(){
+        return HeightUtils.getTItleHeight();
+    }
+
+    private int getTotalHeight(){
+        return HeightUtils.getQQ1HeadHeight();
     }
 
 
@@ -136,6 +232,7 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
 
 
         public void closeResize(){
+            if(child == null || child.get() == null) return;
             CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) child.get().getLayoutParams();
             int currentHeight = params.height;
             mScroller.startScroll(0,currentHeight,0,-currentHeight + HeightUtils.getQQ1HeadHeight(),500);
@@ -158,22 +255,23 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
     public class TaskRunnable implements Runnable{
 
         public void close(){
-           float currentY = child.get().getTranslationY();
-            mScroller.startScroll(0, (int) currentY, 0,(int) (- HeightUtils.getQQ1HeadHeight() +HeightUtils.getTItleHeight() - currentY),500);
+           float currentTop = child.get().getTop();
+            mScroller.startScroll(0, (int) currentTop, 0,(int) (- getTotalHeight() +getSpaceHeight() - currentTop),500);
             handler.post(taskRunnable);
         }
 
         public void open(){
-            float currentY = child.get().getTranslationY();
-            mScroller.startScroll(0, (int) currentY, 0, (int) -currentY,500);
+            float currentTop = child.get().getTop();
+            mScroller.startScroll(0, (int) currentTop, 0, (int) -currentTop,500);
             handler.post(taskRunnable);
         }
 
         @Override
         public void run() {
             if(mScroller.computeScrollOffset()){
-                child.get().setTranslationY(mScroller.getCurrY());
-                if(l!=null) l.onScroll(child.get().getTranslationY());
+                child.get().setTop(mScroller.getCurrY());
+                child.get().setBottom(mScroller.getCurrY()+ getTotalHeight());
+                if(l!=null) l.onScroll(child.get().getTop());
                 handler.post(taskRunnable);
             }
         }
@@ -186,5 +284,6 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
     public void setOnScrollChangeListener(OnScrollChangeListener l){
         this.l  = l;
     }
+
 
 }

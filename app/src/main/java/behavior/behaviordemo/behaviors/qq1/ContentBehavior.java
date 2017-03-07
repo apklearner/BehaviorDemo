@@ -54,5 +54,6 @@ public class ContentBehavior extends HeaderScrollingViewBehavior {
 
     private void offsetChild(View child,View dependency){
         child.setTranslationY(dependency.getTranslationY());
+//        child.offsetTopAndBottom(dependency.getBottom() - child.getTop());
     }
 }

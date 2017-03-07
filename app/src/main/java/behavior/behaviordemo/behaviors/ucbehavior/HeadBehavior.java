@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
@@ -33,6 +32,9 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
 
     private boolean isopen = true;
 
+
+
+
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
         if(this.child == null) this.child = child;
@@ -45,8 +47,6 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
         if(canScroll(child,dy/2)) {
             child.setTranslationY(child.getTranslationY() - dy/2);
             consumed[1] = dy;
-
-            Log.i("123","consume");
         }
 
     }
@@ -62,10 +62,8 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
 
         taskRunner = new TaskRunner(child);
         if(Math.abs(child.getTranslationY()) > getTotalRange()/2){
-            Log.d("123", "onStopNestedScroll:           close");
             taskRunner.close();
         }else {
-            Log.d("123", "onStopNestedScroll:           open");
             taskRunner.open();
         }
     }
@@ -100,10 +98,42 @@ public class HeadBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public boolean onInterceptTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
-        return super.onInterceptTouchEvent(parent, child, ev);
+
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                int x = (int) ev.getX();
+                int y = (int) ev.getY();
+                if(parent.isPointInChildBounds(child,x,y)){
+                    onStartNestedScroll(parent,child,child,child,0);
+                    return true;
+                }
+        }
+        return false;
     }
 
+    private int mlastY;
+    @Override
+    public boolean onTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
 
+        switch (ev.getAction()){
+            case MotionEvent.ACTION_DOWN:
+
+                mlastY = (int) ev.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+
+                int dy = (int) (mlastY - ev.getY());
+                onNestedPreScroll(parent,child,child,0,dy,new int[]{0,0});
+                mlastY = (int) ev.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+
+                onStopNestedScroll(parent,child,child);
+                break;
+        }
+
+        return true;
+    }
 
     private TaskRunner taskRunner;
 

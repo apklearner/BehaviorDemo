@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 
 import behavior.behaviordemo.R;
 import behavior.behaviordemo.base.BaseActivity;
-import behavior.behaviordemo.behaviors.qq1.HeadBehavior;
+import behavior.behaviordemo.behaviors.qq1.HeadBehavior2;
 import behavior.behaviordemo.behaviors.ucbehavior.HeightUtils;
 import behavior.behaviordemo.widget.reveal.callback.OnScrollChangeListener;
 import butterknife.BindView;
@@ -20,7 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class QQHeadActivity extends BaseActivity implements OnScrollChangeListener {
 
-    private HeadBehavior headBehavior;
+    private HeadBehavior2 headBehavior;
 
     @BindView(R.id.qq1_header)
     RelativeLayout relativeLayout;
@@ -42,7 +42,7 @@ public class QQHeadActivity extends BaseActivity implements OnScrollChangeListen
         icon.setPivotX(HeightUtils.getQQ1IconHeight()/2);
         icon.setPivotY(HeightUtils.getQQ1IconHeight());
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) relativeLayout.getLayoutParams();
-        headBehavior = (HeadBehavior) params.getBehavior();
+        headBehavior = (HeadBehavior2) params.getBehavior();
         headBehavior.setOnScrollChangeListener(this);
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
