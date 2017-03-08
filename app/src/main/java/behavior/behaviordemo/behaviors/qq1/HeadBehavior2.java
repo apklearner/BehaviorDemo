@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
@@ -200,7 +199,7 @@ public class HeadBehavior2 extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public boolean onInterceptTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
-        Log.i("123" ,"onInterceptTouchEvent    ");
+//        Log.i("123" ,"onInterceptTouchEvent    ");
         if(this.child == null)
             this.child = new WeakReference<View>(child);
 
@@ -220,20 +219,20 @@ public class HeadBehavior2 extends CoordinatorLayout.Behavior<View> {
     private int mlastY;
     @Override
     public boolean onTouchEvent(CoordinatorLayout parent, View child, MotionEvent ev) {
-        Log.i("123" ,"onTouchEvent    ");
+//        Log.i("123" ,"onTouchEvent    ");
         switch (ev.getAction()){
             case MotionEvent.ACTION_DOWN:
-                Log.i("123" ,"onTouchEvent   DOWN  ");
+//                Log.i("123" ,"onTouchEvent   DOWN  ");
                 mlastY = (int) ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.i("123" ,"onTouchEvent   MOVE ");
+//                Log.i("123" ,"onTouchEvent   MOVE ");
                 int dy = (int) (mlastY - ev.getY());
                 onNestedPreScroll(parent,child,child,0,dy,new int[]{0,0});
                 mlastY = (int) ev.getY();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.i("123" ,"onTouchEvent   MOVE ");
+//                Log.i("123" ,"onTouchEvent   MOVE ");
                 onStopNestedScroll(parent,child,child);
                 break;
         }

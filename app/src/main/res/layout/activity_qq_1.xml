@@ -41,6 +41,7 @@
     android:textColor="#ffffff"
     android:text="内容"
     android:padding="10dp"
+    android:layout_centerHorizontal="true"
     />
 </RelativeLayout>
 
@@ -73,7 +74,6 @@
             android:layout_height="100dp"
             android:src="@drawable/ic_clip_video_play"
             android:tint="#33afa1"/>
-        />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -102,19 +102,16 @@
             android:layout_height="100dp"
             android:src="@drawable/ic_clip_video_play"
             android:tint="#ffff00"/>
-        />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:src="@drawable/ic_clip_video_play"
             android:tint="#ff00ff"/>
-        />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:src="@drawable/ic_clip_video_play"
             android:tint="#ffaa00"/>
-        />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -129,15 +126,36 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/uc_title_height">
+        android:layout_height="@dimen/uc_title_height"
+        app:contentInsetStart="0dp"
+        >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/uc_title_height">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                />
+
+            <View
+                android:id="@+id/view_block"
+                android:layout_width="100dp"
+                android:layout_height="@dimen/uc_title_height"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_below="@+id/view_block"
+                android:id="@+id/tv_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/uc_title_height"
+                android:text="内容"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
                 />
 
         </RelativeLayout>

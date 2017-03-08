@@ -4,7 +4,10 @@ import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import behavior.behaviordemo.R;
 import behavior.behaviordemo.base.BaseActivity;
@@ -30,6 +33,13 @@ public class QQHeadActivity extends BaseActivity implements OnScrollChangeListen
     CircleImageView icon;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    RelativeLayout toolbar;
+    @BindView(R.id.tv_toolbar_title)
+    TextView title;
+    @BindView(R.id.view_block)
+    View block;
+
 
     @Override
     protected int getLayoutRes() {
@@ -64,23 +74,36 @@ public class QQHeadActivity extends BaseActivity implements OnScrollChangeListen
     public void onScroll(float transY) {
             if(transY <0){
 
-//                Log.i("123","startY--->>>        " +transY +"     "+ getStartTransY() +"     " + getScaleSize(transY));
-//                if(Math.abs(transY) >= Math.abs(getStartTransY()) && Math.abs(transY) <= HeightUtils.getQQ1HeadHeight()){
-//                    icon.animate().scaleX(getScaleSize(transY)).scaleY(getScaleSize(transY));
-
-//                }
-                float scale = 1- 0.5f*Math.abs(transY)/(HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight());
+                float scale = 1- 0.9f*Math.abs(transY)/(HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight());
+                if(scale>=0.5)
                 icon.animate().scaleX(scale).scaleY(scale).setDuration(0);
-//                if(Math.abs(transY) >= HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()*2){
-//                    toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-//                }else {
-//                    toolbar.setBackgroundColor(Color.TRANSPARENT);
-//                }
 
                 int  alpha = (int) (255*Math.abs(transY)/(HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()));
+
                 toolbar.setBackgroundColor(Color.argb(alpha,255,64,129));
-//                Log.i("123","startY--->>>        " +transY +"     "+(HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()) );
-//                Log.i("123","alpha--->>>        "+alpha);
+
+                Log.i("123","transY   condition res ---->>>>" + transY +"    " + (HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()*2)+"     "+(HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()-Math.abs(transY)));
+
+
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) block.getLayoutParams();
+
+                if(Math.abs(transY) > HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()*2){
+                 /** 这里通过设置margingtop值 无效 不知道为什么 更改为 上层view的高度变化*/
+//                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) block.getLayoutParams();
+//                    params.topMargin = (int) (HeightUtils.getHeaderHeight()- HeightUtils.getTItleHeight() -Math.abs(transY));
+//                    params.setMargins(0,(int) (HeightUtils.getHeaderHeight()- HeightUtils.getTItleHeight() -Math.abs(transY)),0,0);
+//                    title.setLayoutParams(params);
+//                    Log.i("123","topmarging ---->>>>" + params.topMargin);
+                    params.height = (int) (HeightUtils.getQQ1HeadHeight() - HeightUtils.getTItleHeight()-Math.abs(transY));
+                    block.setLayoutParams(params);
+                }else {
+                    if(params.height != HeightUtils.getTItleHeight()){
+                        params.height = HeightUtils.getTItleHeight();
+                        block.setLayoutParams(params);
+                    }
+                }
+
+
 
             }
     }
